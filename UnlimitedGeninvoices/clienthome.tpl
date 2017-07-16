@@ -53,7 +53,7 @@ background-color: rgba(0, 0, 0, .3);
 				<aside class="profile-nav alt">
 					<section class="panel">
 						<header class="panel-heading">
-							请选择续费项目
+							{$_ADDONLANG['Choose_Renew_Product']}
 						</header>
 						<ul class="nav nav-pills nav-stacked">
 							{$productlist}
@@ -69,28 +69,34 @@ background-color: rgba(0, 0, 0, .3);
             <aside class="profile-nav alt">
                 <section class="panel">
                     <ul class="nav nav-pills nav-stacked">
-						<li><a href="javascript:;"> <i class="fa fa-spinner"></i> 服务ID:{$product['id']} </a></li>
-                        <li><a href="javascript:;"> <i class="fa fa-calendar-check-o"></i> 到期时间: {$product['duedate']} </a></li>
-						<li><a href="javascript:;"> <i class="fa fa-list-alt"></i> 产品/服务 : {$product['name']} </a></li>
-						<li><a href="javascript:;"> <i class="fa fa-check-square-o"></i> 续费价格 : {$product['amount']} </a></li>
+						<li><a href="javascript:;"> <i class="fa fa-spinner"></i> {$_ADDONLANG['Service_ID']}:{$product['id']} </a></li>
+                        <li><a href="javascript:;"> <i class="fa fa-calendar-check-o"></i> {$_ADDONLANG['Duedate']}: {$product['duedate']} </a></li>
+						<li><a href="javascript:;"> <i class="fa fa-list-alt"></i> {$_ADDONLANG['Product/Service']} : {$product['name']} </a></li>
+						<li><a href="javascript:;"> <i class="fa fa-check-square-o"></i> {$_ADDONLANG['Renew_Price']} : {$product['amount']} </a></li>
 					</ul>
                 </section>
             </aside>
 		<section class="panel">
 			<header class="panel-heading">
-				产品续费(暂时只支持在余额足够的情况下进行多周期续费)
+				{$_ADDONLANG['Product_Renew']}
 			</header>
 			<div class="panel-body">
 				<form method="post">
 					{foreach $dataarray as $data}
 						<div>
 						  <input class="magic-radio" type="radio" name="BillingTimes" id="{$data}" value="{$data}" {if $data == 1}checked{/if}>
-						  <label for="{$data}">{$data}个账单周期({$product['amount']*$data}元)</label>
+						  <label for="{$data}">{$data}{$_ADDONLANG['renew_times']}({$_ADDONLANG['Currency_symbol']}{$product['amount']*$data})</label>
 						</div>
 					{/foreach}
 					<hr></hr>
-					<input class="btn btn-success" type="submit" value="创建续费账单">
-				</form>
+					<input class="btn btn-success" type="submit" value="{$_ADDONLANG['Create_invoice']}">		
+				</form>	
+					<hr></hr>
+					<a href="index.php?m=UnlimitedGeninvoices">
+						<button class="btn btn-primary btn" >
+							{$_ADDONLANG['Back_to_Main']}
+						</button>
+					</a>
 			</div> 
 		</section>		
 	</div>

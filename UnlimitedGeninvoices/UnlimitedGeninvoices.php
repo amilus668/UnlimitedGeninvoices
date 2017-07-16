@@ -1,12 +1,12 @@
 <?php
 if (!defined("WHMCS"))
     die("This file cannot be accessed directly");
-
+	
 function UnlimitedGeninvoices_config() {
     $configarray = array(
     "name" => "UnlimitedGeninvoices",
-    "description" => "提前续费订单创建系统",
-    "version" => "1.0",
+    "description" => 'A Geninvoices Plugin',
+    "version" => "1.1",
     "author" => "Zzm317",
     "language" => "english",
     "fields" => array());
@@ -14,11 +14,11 @@ function UnlimitedGeninvoices_config() {
 }
 
 function UnlimitedGeninvoices_activate() {
-    return array('status'=>'success','description'=>'插件激活成功。');
+    return array('status'=>'success');
 }
 
 function UnlimitedGeninvoices_deactivate() {
-    return array('status'=>'success','description'=>'插件停用成功。');
+    return array('status'=>'success');
 }
 
 function getServiceAvailable($id,$userid){
@@ -56,6 +56,7 @@ function makedataarray($time=6){
 }
 
 function UnlimitedGeninvoices_clientarea($vars) {
+	$_ADDONLANG = $vars['_lang'];
 	$type = 1;
 	if($_POST['BillingTimes'] and isset($_GET['id'])) {
 		for ($x=0; $x < $_POST['BillingTimes']; $x++) {
@@ -68,12 +69,12 @@ function UnlimitedGeninvoices_clientarea($vars) {
 			if($results['result'] == 'success') {
 				$geninvoicelatestinvoiceid = $results['latestinvoiceid'];
 				if ($geninvoicelatestinvoiceid == "0") {
-					$errorreturn = "您所选择的服务目前无法创建续费账单.可能是因为余额不足或存在未支付账单";
+					$errorreturn = $_ADDONLANG['Error_Product_Cannot_renew'];
 					break;
 				}
 			}
 		}
-		$successreturn = "已成功为您续费".$x."个周期";
+		$successreturn = $_ADDONLANG['Renewed_success'];
 	}
 	
 	if(isset($_GET['id'])){
@@ -81,7 +82,7 @@ function UnlimitedGeninvoices_clientarea($vars) {
 			$product = ShowService($_GET['id'],$_SESSION['uid']);
 			$type = 2;
 		}else{
-			$errorreturn = "该产品不属于你";
+			$errorreturn = $_ADDONLANG['Error_Product_Not_Your'];
 			$type = 3;
 		}
 	}
@@ -100,14 +101,14 @@ function UnlimitedGeninvoices_clientarea($vars) {
 		$servicerecurringamount = $producedetails['recurringamount'];
 		$productlist .= "<li><a href='".$_SERVER['REQUEST_URI']."&id=$serviceid'> 
 			<i class=\"fa fa-list-alt\"></i>
-			 ID:$serviceid $servicename($servicenextduedate)-$servicerecurringamount
+			 ID:$serviceid $servicename($servicenextduedate)-".$_ADDONLANG['Currency_symbol']."$servicerecurringamount
 			</a></li>";
 		}
 	}
 	
 	$dataarray = makedataarray(3); 
     return array(
-        'pagetitle' => '创建续费账单',
+        'pagetitle' => $_ADDONLANG['Create_renew_invoice'],
         'breadcrumb' => array('index.php?m=Geninvoices'=>'Geninvoices'),
         'templatefile' => 'clienthome',
         'requirelogin' => true,
@@ -117,9 +118,9 @@ function UnlimitedGeninvoices_clientarea($vars) {
             'productlist' => $productlist,
 			'product' => $product,
 			'dataarray' => $dataarray,
-			'type' => $type
+			'type' => $type,
+			'_ADDONLANG' => $vars['_lang']
         ),
     );
-
 
 }

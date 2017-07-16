@@ -13,7 +13,7 @@
 * 3.make a link to /index.php?m=UnlimitedGeninvoices
 
 ## Todo
-* 1.add multi-language support|添加多语言支持
+* ~~1.add multi-language support|添加多语言支持~~
 
 ## Others
 * use the link /index.php?m=UnlimitedGeninvoices&id=xxx if you want to add a renew module in product details
